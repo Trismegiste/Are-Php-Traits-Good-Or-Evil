@@ -11,16 +11,6 @@ After some experiences in concrete cases, here is how I see the real shit.
 
 I've made this blog on Github because, it's about coding : what a better place ?
 
-## Warning
-
-For PHP fans : I love PHP. I hate PHP. There are fantastic features and there are
-ugly features. Every language has. Today, I like PHP 5.3+ because the community
-and the ecosystem are vast and pretty alive. Only Javascript can compete but
-I'm not a huge fan of prototyping. Therefore : PHP.
-
-I love c++, I like java, I have coded in perl, prolog and lisp. Today I code in PHP and
-tomorrow ? Scala, JS or Clojure ? Who knows...
-
 ## Trait : the good part
 
 Traits are defined as "horizontal inheritance". Therefore it's good to prevent
