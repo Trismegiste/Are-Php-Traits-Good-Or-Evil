@@ -14,9 +14,9 @@ I've made this blog on Github because, it's about coding : what a better place ?
 ## Trait : the good part
 
 Traits are defined as "horizontal inheritance". Therefore it's good to prevent
-the copy-paste antipattern. Kewl.
+the copy-paste antipattern. Kewl. Let's start with an history lesson of Java.
 
-Do you recall the "Impl" suffix in java API ?
+Do you recall java API classes with the "Impl" suffix ?
 
 ```java
 class RMIServerImpl implements RMIServer...
@@ -38,11 +38,11 @@ class MyServer extends Thing implements RMIServer
 
 Why this ? Because unlike c++, java cannot inherit from multiple concrete classes.
 You have to replace a "is-a" relation by a decorator pattern. This could be a good
-thing (not static) but in many times it's too verbose, IMO.
+thing (not static) but in many cases it's too verbose, IMO.
 
-Without trait, PHP 5.3 does the same trick.
+Without trait, PHP 5.3 has the same problem and does the same trick.
 
-Now with trait :
+Now with trait in PHP 5.4 :
 
 ```php
 interface RMIServer
@@ -71,8 +71,9 @@ by a "has-a" relation.
 
 ## Trait : the bad part
 
-One must understand the major flaw with trait : using a trait don't
-change the type of that object. If you add traits in many classes, it's like
+One must understand the major flaw with trait : unlike multiple inheritance,
+using a trait don't change the type of that object.
+If you add traits in many classes, it's like
 copy-pasting the same code in many places without changing the interface of these
 classes. This is a generator of hidden coupling and you're doomed to, one day,
 break the Liskov Substitution Principle like this :
@@ -142,7 +143,7 @@ class Broker
 }
 ```
 
-Here is the light side of the trait.
+Here is the light side of the trait : you rely on abstraction.
 
 ## Conclusion
 
@@ -153,3 +154,4 @@ suffix for every trait to show its relation with the interface.
 
  * Code real examples with tests and travisCI
  * trait with only protected : a way to replace helper classes ?
+ * How GoF patterns are impacted ?
