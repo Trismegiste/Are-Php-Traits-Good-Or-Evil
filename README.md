@@ -57,12 +57,12 @@ Now with trait :
 ```php
 interface RMIServer
 {
-    public function newClient(Object $credentials);
+    public function newClient($credentials);
 }
 
 trait RMIServerImpl
 {
-    public function newClient(Object $credentials)
+    public function newClient($credentials)
     {
         return 42;
     }
@@ -76,18 +76,20 @@ class MyServer extends Thing implements RMIServer
 }
 ```
 
-And that's it ! You have strong typing and you don't need to transform a "is-a" relation
+And that's it ! You have strong typing and you easily replace the "is-a" relation
 by a "has-a" relation.
 
-## Trait: the bad part
+## Trait : the bad part
 
 One must understand the major flaw with trait : using a trait don't
 change the type of that object. If you add traits in many classes, it's like
 copy-pasting the same code in many places without changing the interface of these
-classes. This is a generator of hidden coupling and you're doom to break the Liskov
-Substitution Principle :
+classes. This is a generator of hidden coupling and you're doomed to, one day,
+break the Liskov Substitution Principle like this :
 
 ```php
+/* The dark Side */
+
 trait Service
 {
     public function getThing()
@@ -121,6 +123,8 @@ We can say this is the Dark Side of efferent coupling.
 What to do ?
 
 ```php
+/* The light Side */
+
 interface Service
 {
     public function getThing();
@@ -151,3 +155,11 @@ class Broker
 Here is the light side of the trait.
 
 ## Conclusion
+
+Today, if a trait has public method, I make an interface. I'm using the "Impl"
+suffix for every trait to show its relation with the interface.
+
+## TODO
+
+ * Code real examples with tests and travisCI
+ * trait with only protected : a way to replace helper classes ?
