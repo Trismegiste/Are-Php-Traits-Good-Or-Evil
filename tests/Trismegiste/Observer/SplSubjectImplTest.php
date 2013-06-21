@@ -34,4 +34,11 @@ class SplSubjectImplTest extends \PHPUnit_Framework_TestCase
 
 }
 
+// example test
+class SubjectExample implements \SplSubject
+{
+
+    use \Trismegiste\Observer\SplSubjectImpl;
+}
+
 

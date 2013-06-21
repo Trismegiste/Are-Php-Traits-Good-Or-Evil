@@ -10,4 +10,4 @@ if (!$loader = @include __DIR__ . '/../vendor/autoload.php') {
             'php composer.phar install --dev' . PHP_EOL);
 }
 
-$loader->add('Tests', __DIR__);
+$loader->add('Tests\\', __DIR__);
