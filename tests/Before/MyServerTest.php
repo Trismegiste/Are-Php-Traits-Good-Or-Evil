@@ -24,6 +24,7 @@ class MyServerTest extends \PHPUnit_Framework_TestCase
 
     public function testCall()
     {
+        $this->assertInstanceOf('Before\MyServer', $this->server);
         $this->server->newClient(42);
     }
 
