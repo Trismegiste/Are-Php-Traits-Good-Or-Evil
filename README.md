@@ -14,50 +14,64 @@ I've made this blog on Github because, it's about coding : what a better place ?
 ## Trait : the good part
 
 Traits are defined as "horizontal inheritance". Therefore it's good to prevent
-the copy-paste antipattern. Kewl. Let's start with an history lesson of Java.
+the copy-paste antipattern. Kewl. Let's take as example the wrapper/decorator
+pattern:
 
-Do you recall java API classes with the "Impl" suffix ?
-
-```java
-class RMIServerImpl implements RMIServer...
-
-class MyServer extends Thing implements RMIServer
-{
-
-    protected RMIServerImpl wrapped;
-
-    public RMIConnection newClient(Object credentials) throws IOException
-    {
-        return wrapped.newClient(credentials);
-    }
-
-    // ... some other "redirection methods" to the wrapped implementation
-
-}
-```
-
-Why this ? Because unlike c++, java cannot inherit from multiple concrete classes.
-You have to replace a "is-a" relation by a decorator pattern. This could be a good
-thing (not static) but in many cases it's too verbose, IMO.
-
-Without trait, PHP 5.3 has the same problem and does the same trick.
-
-Now with trait in PHP 5.4 :
 
 ```php
+// interface for the server
 interface RMIServer
 {
     public function newClient($credentials);
 }
 
+// implementation for the server
+class RMIServerImpl
+{
+    public function newClient($credentials)
+    {
+        // ... some code
+    }
+}
+
+// Wrapping the server and extending class Thing
+class MyServer extends Thing implements RMIServer
+{
+    protected $wrapped;
+
+    // ...
+
+    public function newClient($credentials)
+    {
+        return $this->wrapped->newClient($credentials);
+    }
+
+}
+```
+
+Why this ? Because unlike c++, PHP cannot inherit from multiple concrete classes.
+You have to replace a "is-a" relation by a decorator pattern. This could be a good
+thing (not static) but in many cases it's too verbose, IMO.
+
+Now with trait in PHP 5.4 :
+
+```php
+// interface for the server
+interface RMIServer
+{
+    public function newClient($credentials);
+}
+
+// implementation for the server
 trait RMIServerImpl
 {
     public function newClient($credentials)
     {
-        return 42;
+        // ... some code
     }
 }
 
+// implementing the server and extending class Thing
 class MyServer extends Thing implements RMIServer
 {
 
@@ -83,7 +97,7 @@ break the Liskov Substitution Principle like this :
 
 trait Service
 {
-    public function getThing()
+    public function getAnswer()
     {
         return 42;
     }
@@ -96,11 +110,11 @@ class MyService extends OtherThing
 
 class Broker
 {
-    public function useService($srv)
+    public function useService(OtherThing $srv)
     {
         if (in_array('Service', class_uses($srv)))
         {
-            $srv->getThing();
+            $srv->getAnswer();
         }
     }
 }
@@ -118,12 +132,12 @@ What to do ?
 
 interface Service
 {
-    public function getThing();
+    public function getAnswer();
 }
 
 trait ServiceImpl
 {
-    public function getThing()
+    public function getAnswer()
     {
         return 42;
     }
@@ -138,20 +152,34 @@ class Broker
 {
     public function useService(Service $srv)
     {
-        $srv->getThing();
+        $srv->getAnswer();
     }
 }
 ```
 
-Here is the light side of the trait : you rely on abstraction.
+Here is the light side of the trait :
+ * You rely on abstraction
+ * No copy-paste for "re-routing methods"
+ * Strong typing
+
+Still, there is a big problem : you cannot avoid a developper to add a new method
+in the trait and using it elsewhere and forgetting to add the signature in the interface.
+You have to keep trait and interface in sync ! In fact I think about creating a tool
+for that.
 
 ## Conclusion
 
-Today, if a trait has public method, I make an interface. I'm using the "Impl"
-suffix for every trait to show its relation with the interface.
+Today, if a trait has public method, I **always** make an interface for it.
+I'm using the "Impl" suffix for every trait to show it is related with the interface.
+Actually, The "Impl" suffix comes from Java API, but I think it's a good standard.
+
+With traits feature, we can think OOP differently : interface on one side,
+implementation in trait on the other side and concrete classes are the combo of
+both sets. This concept feels like mixins in Common Lisp.
 
 ## TODO
 
  * Code real examples with tests and travisCI
  * trait with only protected : a way to replace helper classes ?
- * How GoF patterns are impacted ?
+ * How GoF patterns are impacted ? The end of Decorator Pattern ?
+ * An example of SplSubjectImpl

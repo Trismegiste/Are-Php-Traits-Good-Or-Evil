@@ -1,0 +1,19 @@
+{
+    "name": "root/are-php-traits-good-or-evil",
+    "description": "Random thoughts about PHP traits",
+    "license": "CC-BY-SA-3.0",
+    "authors": [
+    {
+        "name": "Trismegiste",
+        "email": "florent.g@allopneus.com"
+    }
+    ],
+    "autoload": {
+        "psr-0": {
+            "": "src"
+        }
+    },
+    "require": {
+        "php": ">=5.4"
+    }
+}
