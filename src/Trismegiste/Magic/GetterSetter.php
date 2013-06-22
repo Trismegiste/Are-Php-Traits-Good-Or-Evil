@@ -19,7 +19,7 @@ trait GetterSetter
 
             $propName = lcfirst($extract[2]);
 
-            if (property_exists($this, $propName)) {
+            if (property_exists(get_called_class(), $propName)) {
                 switch ($extract[1]) {
                     case 'set' :
                         $this->$propName = $args[0];

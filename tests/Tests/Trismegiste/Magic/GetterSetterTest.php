@@ -49,8 +49,31 @@ class GetterSetterTest extends \PHPUnit_Framework_TestCase
         $this->object->getUnknown();
     }
 
-}
+    /**
+     * @expectedException \BadMethodCallException
+     * @expectedExceptionMessage Property injection is not defined
+     */
+    public function testPropInjection()
+    {
+        $this->object->injection = 666;
+        $this->object->getInjection();
+    }
 
+    public function testMotherPropInSubclass()
+    {
+        $obj = new Daughter();
+        $obj->setAnswer(42);
+        $this->assertEquals(42, $obj->getAnswer());
+    }
+
+    public function testDaughterPropInSubclass()
+    {
+        $obj = new Daughter();
+        $obj->setData(666);
+        $this->assertEquals(666, $obj->getData());
+    }
+
+}
 
 class Container
 {
@@ -58,5 +81,12 @@ class Container
     use \Trismegiste\Magic\GetterSetter;
 
     protected $answer;
+
+}
+
+class Daughter extends Container
+{
+
+    protected $data;
 
 }
