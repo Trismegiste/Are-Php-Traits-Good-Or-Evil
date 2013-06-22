@@ -7,8 +7,10 @@
 namespace Trismegiste\Magic;
 
 /**
- * GetterSetter is an implementation of getters/setters
- *
+ * GetterSetter is an implementation of automagic getters/setters
+ * The purpose of this trait is to replace a container with public properties
+ * by an anemic model with dumb accessor/mutator and ready to be subclassed
+ * without generating future WTF.
  */
 trait GetterSetter
 {
@@ -19,7 +21,8 @@ trait GetterSetter
 
             $propName = lcfirst($extract[2]);
 
-            if (property_exists(get_called_class(), $propName)) {
+            // I freeze the scope to defined properties of the class where this trait is used 
+            if (property_exists(__CLASS__, $propName)) {
                 switch ($extract[1]) {
                     case 'set' :
                         $this->$propName = $args[0];
@@ -29,7 +32,7 @@ trait GetterSetter
                         break;
                 }
             } else {
-                throw new \BadMethodCallException("Property $propName is not defined in " . get_called_class());
+                throw new \BadMethodCallException("Property $propName is not defined in " . __CLASS__);
             }
         } else {
             throw new \BadMethodCallException("Method $methodName is unknown");
