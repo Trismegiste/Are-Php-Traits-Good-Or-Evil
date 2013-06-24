@@ -19,7 +19,7 @@ class SerializerTest extends \PHPUnit_Framework_TestCase
     public function testDump()
     {
         $dump = serialize(new Example());
-
+        echo $dump;
         print_r($this->service->unserialObject($dump));
     }
 
@@ -32,9 +32,11 @@ class Example
     public $ccc = "333";
     protected $ddd;
     private $aaa = 111;
+    protected $other;
 
     public function __construct()
     {
+        $this->other = new \ArrayObject();
         $this->ddd = new Embedded();
     }
 
