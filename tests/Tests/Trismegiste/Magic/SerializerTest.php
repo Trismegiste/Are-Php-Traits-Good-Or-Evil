@@ -19,7 +19,7 @@ class SerializerTest extends \PHPUnit_Framework_TestCase
     public function testDump()
     {
         $dump = serialize(new Example());
-        echo $dump;
+
         print_r($this->service->unserialObject($dump));
     }
 
@@ -28,9 +28,10 @@ class SerializerTest extends \PHPUnit_Framework_TestCase
 class Example
 {
 
-    private $aaa = 111;
-    public $ccc = "333";
     protected $bbb = array(222);
+    public $ccc = "333";
+    protected $ddd;
+    private $aaa = 111;
 
     public function __construct()
     {
@@ -80,20 +81,20 @@ class Unserializer
             switch ($ending[0]) {
 
                 case 'a':
-                    preg_match('#^a:(\d+):\{(.+)$#', $ending, $extract);
+                    preg_match('#^a:(\d+):\{(.*)$#', $ending, $extract);
                     $unserialArray = $this->unserialProp($extract[1], $extract[2]);
                     $property[$nameProp] = $unserialArray['hash'];
                     $str = substr($unserialArray['rest'], 1);
                     break;
 
                 case 's':
-                    preg_match('#^s:(\d+):"(.+)$#', $ending, $extract);
+                    preg_match('#^s:(\d+):"(.*)$#', $ending, $extract);
                     $property[$nameProp] = substr($extract[2], 0, $extract[1]);
                     $str = substr($extract[2], $extract[1] + 2);
                     break;
 
                 case 'i':
-                    preg_match('#^i:([^;]+);(.+)$#', $ending, $extract);
+                    preg_match('#^i:([^;]+);(.*)$#', $ending, $extract);
                     $property[$nameProp] = (int) $extract[1];
                     $str = $extract[2];
                     break;
@@ -106,8 +107,6 @@ class Unserializer
                     $str = substr($unserialArray['rest'], 1);
                     break;
             }
-
-            print_r($property);
         }
 
         return ['hash' => $property, 'rest' => $str];
