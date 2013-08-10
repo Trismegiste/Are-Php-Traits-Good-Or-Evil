@@ -1,5 +1,7 @@
 # PHP Traits : Good Or Evil ?
 
+[![Build Status](https://travis-ci.org/Trismegiste/Are-Php-Traits-Good-Or-Evil.png?branch=master)](https://travis-ci.org/Trismegiste/Are-Php-Traits-Good-Or-Evil)
+
 ## Preamble
 
 Ok guyz, today, I'll speak about this shiny feature of PHP 5.4 : Trait.
@@ -177,9 +179,6 @@ With traits feature, we can think OOP differently : interface on one side,
 implementation in trait on the other side and concrete classes are the combo of
 both sets. This concept feels like mixins in Common Lisp.
 
-## TODO
+I have made a compilation of trait in my [new library : Php is Magic][1]
 
- * Code real examples with tests and travisCI
- * trait with only protected : a way to replace helper classes ?
- * How GoF patterns are impacted ? The end of Decorator Pattern ?
- * An example of SplSubjectImpl
+[1]: https://github.com/Trismegiste/Php-Is-Magic
