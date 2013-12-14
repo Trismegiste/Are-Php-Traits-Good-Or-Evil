@@ -28,7 +28,7 @@ interface RMIServer
 }
 
 // implementation for the server
-class RMIServerImpl
+class RMIServerImpl implements RMIServer
 {
     public function newClient($credentials)
     {
